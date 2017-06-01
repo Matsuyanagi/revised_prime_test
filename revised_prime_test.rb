@@ -143,19 +143,24 @@ def main( settings )
 	
 end
 
-main( settings )
+# main( settings )
 
 def main2( settings )
 	
+#	range_lower = 1_0000_0000 + 1
+#	range_upper = 1_0000_0000 + 100_0000
+	range_lower = 0 + 1
+	range_upper = 0 + 200_0000
+	
 	result = Benchmark.realtime do
-		( 1+1_0000_0000 ... 100_0000+1_0000_0000 ).each do |n|
+		( range_lower ... range_upper ).each do |n|
 			p = (n*2+1).prime?
 		end
 	end
 	puts "prime? 処理概要 #{result}s"
 	
 	result = Benchmark.realtime do
-		( 1+1_0000_0000 ... 100_0000+1_0000_0000 ).each do |n|
+		( range_lower ... range_upper ).each do |n|
 			p = (n*2+1).rev_prime?
 		end
 	end
@@ -164,7 +169,7 @@ def main2( settings )
 	
 end
 
-# main2( settings )
+main2( settings )
 
 
 
