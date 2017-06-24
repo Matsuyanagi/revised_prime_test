@@ -221,6 +221,9 @@ class Integer
 			return false if self != a[0] && self % a[0] == 0
 		end
 		
+		# 71 の次の素数、73 * 73 以下なら素数確定
+		#	base_and_uppperbounds.last[ 0 ] (71) の次の素数(73) を求めるのは難しいか。奇数だから少なくとも +2 だけど
+		return true self < 73 * 73
 		
 	    # ミラーラビンテストで使用する d を求める
 	    # d : (p-1)^( d*(2*r) ) を求める
