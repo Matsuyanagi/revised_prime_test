@@ -378,3 +378,84 @@ end
 
 
 
+=begin
+#-----------------------------------------------------------------------------
+#	
+#-----------------------------------------------------------------------------
+# 計算結果比較 prime? と mr_prime? を比較する
+def main
+	puts __method__
+	
+	result = Benchmark.realtime do
+		( -10  ... 200_0000 ).each do |n|
+			$stderr.puts( "#{n}" ) if n % 100000 == 0
+			
+			number = (n*2+1)
+			p = number.prime?
+			r = number.mr_prime?
+			if p != r
+				puts( "----" )
+				puts( "#{number} : #{p} , #{r}" )
+			end
+			
+			
+		end
+	end
+	puts "prime? + mr_prime? 処理概要 #{result}s"
+	
+end
+
+# prime? と mr_prime? の実行時間測定
+def main2
+	puts __method__
+	
+	offset = 1_0000_0000
+	
+	range_lower = offset + 1
+	range_upper = offset + 100_0000
+	
+	result = Benchmark.realtime do
+		( range_lower ... range_upper ).each do |n|
+			p = (n*2+1).prime?
+		end
+	end
+	puts "prime? 処理概要 #{result}s"
+	
+	result = Benchmark.realtime do
+		( range_lower ... range_upper ).each do |n|
+			p = (n*2+1).mr_prime?
+		end
+	end
+	puts "mr_prime? 処理概要 #{result}s"
+	
+	
+end
+
+# 特定素数の判定時間
+def main3( n )
+	puts __method__
+	
+	result = Benchmark.realtime do
+		puts n
+		puts n.prime?
+	end
+	puts "prime? 処理概要 #{result}s"
+	
+	result = Benchmark.realtime do
+		puts n
+		puts n.mr_prime?
+	end
+	puts "mr_prime? 処理概要 #{result}s"
+	
+	
+end
+
+# main
+# main2
+# main3( 18446744073709551533 )	# 0xffffffffffffffad 64bit 最大の素数
+
+
+
+
+
+=end
