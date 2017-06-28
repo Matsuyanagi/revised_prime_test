@@ -60,7 +60,6 @@ class Integer
 		
 		# base_prime_and_uppperbounds の[0]要素の素数に一致すれば素数
 		if self <= base_prime_and_uppperbounds.last[ 0 ]
-			# bsearch で二分探索する
 			return true if base_prime_and_uppperbounds.bsearch{ |a| a[0] >= self } == self
 		end
 		
@@ -69,9 +68,9 @@ class Integer
 			return false if self != a[0] && self % a[0] == 0
 		end
 		
-		# 71 の次の素数、73 * 73 以下なら素数確定
-		#	( 73 * 73 ) 未満で合成数であれば 71 以下の素因数を持ち、上記で合成数判定されているため
-		#	base_prime_and_uppperbounds.last[ 0 ] (71)の次の素数(73) が計算で求まらない
+		# 71 の次の素数、73 の2乗、( 73 * 73 ) 未満なら素数確定
+		#	( 73 * 73 ) 未満で合成数であれば 71 以下の素因数を持ち、上記で合成数判定されている
+		#	base_prime_and_uppperbounds.last[ 0 ] (=71)の次の素数(73) が計算で求まらないため直値としている
 		return true if self < 73 * 73
 		
 		# ミラーラビンテストで使用する d を求める
@@ -84,7 +83,7 @@ class Integer
 			# base と self が素であることは保証されている
 			
 			# base においてミラーラビンテスト true で upper_bound 未満なら素数確定
-			if miller_rabin_prime_test( base, miller_rabin_d )
+			if miller_rabin_primality_test( base, miller_rabin_d )
 				if self < upper_bound
 					return true		# 素数確定
 				end
@@ -108,7 +107,7 @@ class Integer
 	# ミラーラビン素数判定
 	#  wikipedia ベース
 	#	https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95
-	def miller_rabin_prime_test( base, miller_rabin_d )
+	def miller_rabin_primality_test( base, miller_rabin_d )
 		probable_prime = self
 		
 		t = miller_rabin_d
@@ -124,7 +123,7 @@ class Integer
 	# ( base ** exp ) % mod
 	#  wikipedia ベース
 	#	 https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95
-	# 本来なら base = 1,0 は特異であることをのぞいておく必要がある。ここでは来こない
+	# 本来なら base = 1,0 は特異であることをのぞいておく必要がある。ここでは来ない
 	def powmod( base, exp, mod )
 		
 		base = base % mod if base >= mod
