@@ -18,12 +18,12 @@ class TC_MrPrime < Test::Unit::TestCase
 	
 	# 65bit prime number test
 	def test_65bit_prime
-		assert_equal( true, 0x1ffffffffffffffcf.mr_prime? )
+		assert( true, 0x1ffffffffffffffcf.mr_prime? )
 	end
 	
 	# 10^36 prime number test
 	def test_10_36_prime
-		assert_equal( true, 999999999999999999999999999999999841.mr_prime? )
+		assert( true, 999999999999999999999999999999999841.mr_prime? )
 	end
 	
 end
