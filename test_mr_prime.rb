@@ -1,3 +1,4 @@
+require 'prime'
 require 'test/unit'
 require './mr_prime.rb'
 

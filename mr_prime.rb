@@ -6,10 +6,6 @@
 #	
 #	2017-05-16
 #-----------------------------------------------------------------------------
-require 'pp'
-require 'prime'
-require 'benchmark'
-
 #-----------------------------------------------------------------------------
 #	Integer#mr_prime? ミラーラビンテストを利用した素数判定
 #		ミラーラビンテストで素数判定された場合、強擬素数未満なら素数確定する
@@ -22,8 +18,6 @@ class Integer
 		# (2をのぞく)偶数は合成数
 		return false if self.even?
 		
-		# http://mathworld.wolfram.com/StrongPseudoprime.html より
-		#
 		#	2を底とする強擬素数
 		#	Strong pseudoprimes to base 2.
 		#	http://oeis.org/A001262
@@ -64,7 +58,7 @@ class Integer
 			[ 59,	564132928021909221014087501701 ],
 			[ 61,	1543267864443420616877677640751301 ],
 			[ 67,	1543267864443420616877677640751301 ],
-			[ 71,	10 ** 36 ],		# 10^36 ≒ 2**119.59
+			[ 71,	10 ** 36 ],
 		]
 		
 		# base_prime_and_uppperbounds の[0]要素の素数に一致すれば素数
@@ -80,7 +74,7 @@ class Integer
 		
 		# 71 の次の素数、73 * 73 以下なら素数確定
 		#	( 73 * 73 ) 未満で合成数であれば 71 以下の素因数を持ち、上記で合成数判定されているため
-		#	base_prime_and_uppperbounds.last[ 0 ] (71)の次の素数(73) を計算で求めるのは難しい
+		#	base_prime_and_uppperbounds.last[ 0 ] (71)の次の素数(73) が計算で求まらない
 		return true if self < 73 * 73
 		
 		# ミラーラビンテストで使用する d を求める
@@ -101,7 +95,7 @@ class Integer
 				return false		# 合成数確定
 			end
 		end
-		# すべての底について true で通過した
+		# すべての底について true で通過
 		
 		# 高確率で素数ではあるが、合成数(強擬素数)の可能性がある
 		#	ruby 2.4.1 の prime? の実装
@@ -130,7 +124,6 @@ class Integer
 		true
 	end
 
-
 	# ( base ** exp ) % mod
 	#  wikipedia ベース
 	#	 https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95
@@ -150,6 +143,4 @@ class Integer
 		answer
 	end
 end
-
-
 
