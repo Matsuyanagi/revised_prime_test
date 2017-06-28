@@ -4,9 +4,6 @@
 #	ミラーラビンテストを使った素数判定
 #	
 #	
-#	2017-05-16
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
 #	Integer#mr_prime? ミラーラビンテストを利用した素数判定
 #		ミラーラビンテストで素数判定された場合、強擬素数未満なら素数確定する
 #-----------------------------------------------------------------------------
@@ -115,7 +112,7 @@ class Integer
 		probable_prime = self
 		
 		t = miller_rabin_d
-		y = self.powmod( base, t, probable_prime )
+		y = powmod( base, t, probable_prime )
 		while t != probable_prime-1 && y != 1 && y != probable_prime-1
 			y = (y * y) % probable_prime
 			t <<= 1
@@ -127,7 +124,7 @@ class Integer
 	# ( base ** exp ) % mod
 	#  wikipedia ベース
 	#	 https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95
-	# 本来なら base = 1,0 は特異であることをのぞいておく必要がある。ここでは来るはずはない
+	# 本来なら base = 1,0 は特異であることをのぞいておく必要がある。ここでは来こない
 	def powmod( base, exp, mod )
 		
 		base = base % mod if base >= mod
