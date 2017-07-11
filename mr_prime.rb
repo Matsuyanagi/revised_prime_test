@@ -78,30 +78,42 @@ class Integer
 		miller_rabin_d = self-1
 		miller_rabin_d >>= 1 while miller_rabin_d.even?
 		
-		# 各 base を底としてミラーラビンテストをする
-		base_prime_and_uppperbounds.each do | base, upper_bound|
-			# base と self が素であることは保証されている
-			
-			# base においてミラーラビンテスト true で upper_bound 未満なら素数確定
-			if miller_rabin_primality_test( base, miller_rabin_d )
-				if self < upper_bound
-					return true		# 素数確定
+		if self <= base_prime_and_uppperbounds.last[ 1 ]
+			# 各 base を底としてミラーラビンテストをする
+			base_prime_and_uppperbounds.each do | base, upper_bound|
+				# base と self が素であることは保証されている
+				
+				# base においてミラーラビンテスト true で upper_bound 未満なら素数確定
+				if miller_rabin_primality_test( base, miller_rabin_d )
+					if self < upper_bound
+						return true		# 素数確定
+					end
+				else
+					return false		# 合成数確定
 				end
-			else
-				return false		# 合成数確定
 			end
+			# すべての底について true で通過
+			true
+		else
+			# Miller-Test
+			#	a < 2 * ( log p )^2 の a すべてを底としてミラーテストする
+			#	リーマン予想が正しければ素数が確定する
+			base_upper_limit = ( 2 * ( Math.log( self ) ** 2 ) ).ceil.to_i
+			( 2 .. base_upper_limit ).each do | base, upper_bound|
+				# base と self が素であることを確認する
+				next if self.gcd( base ) != 1
+				
+				# base においてミラーラビンテスト false なら合成数は確定する 
+				unless miller_rabin_primality_test( base, miller_rabin_d )
+					return false		# 合成数確定
+				end
+			end
+			# すべての base について素数と判定されたので素数確定
+			
+			# lucas リュカテストも入れたいところ
+			
+			true
 		end
-		# すべての底について true で通過
-		
-		# 高確率で素数ではあるが、合成数(強擬素数)の可能性がある
-		#	ruby 2.4.1 の prime? の実装
-		#	√self まで除算試行
-		(7..Math.sqrt(self).to_i).step(30) do |p|
-			return false if
-				self%(p)	== 0 || self%(p+4)	== 0 || self%(p+6)	== 0 || self%(p+10) == 0 ||
-				self%(p+12) == 0 || self%(p+16) == 0 || self%(p+22) == 0 || self%(p+24) == 0
-		end
-		true
 	end
 	
 	# ミラーラビン素数判定
