@@ -13,6 +13,8 @@ def main( n )
 end
 
 main( 0xffffffffffffffad )
+main( 1_000_000_000_000_000_003 )
+main( 340282366920938463463374607431768211283 )
 
 
 
